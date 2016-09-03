@@ -24,7 +24,12 @@
 <ul class="nav nav-tabs nav-justified">
 <li class="active"><a href="#" data-toggle="tab">Register</a></li>
 <li><a href="login.php" data-toggle="tab">Login</a></li>
+<<<<<<< HEAD
 <li><a href="session.php" data-toggle="tab">Edit Records</a></li>
+=======
+<li><a href="#Update" data-toggle="tab">Update Records</a></li>
+<li><a href="#Delete" data-toggle="tab">Delete Records</a></li>
+>>>>>>> origin/someyhing-small
 </ul>
 </div>
 <!--------------------------------------------------->
@@ -54,7 +59,11 @@
 <label>Phone Number</label>			<br>
 <input type="text" class="form-control" name="PHONE" placeholder="Phone Number" required>	<br>
 <label>Email Address</label>		<br>
+<<<<<<< HEAD
 <input type="email" class="form-control" name="EMAIL" placeholder="Email Address" required>	<br>
+=======
+<input type="text" class="form-control" name="EMAIL" placeholder="Email Address" required>	<br>
+>>>>>>> origin/someyhing-small
 <label>Residential Address</label>	<br>
 <input type="text" class="form-control" name="RADDRESS" placeholder="Residential Address" required>	<br>
 <label>Postal Address</label>		<br>
@@ -68,7 +77,11 @@
 <label>Last Name</label>					<br>
 <input type="text" class="form-control" name="KLNAME" placeholder="Last Name" required>	<br>
 <label>Email Address</label>		<br>
+<<<<<<< HEAD
 <input type="email" class="form-control" name="KINEMAIL" placeholder="Email Address" required>	<br>
+=======
+<input type="text" class="form-control" name="KINEMAIL" placeholder="Email Address" required>	<br>
+>>>>>>> origin/someyhing-small
 <label>Phone Number</label>			<br>
 <input type="text" class="form-control" name="KNIPHONE" placeholder="Phone Number" required>	<br>
 <label>Relationship</label>			<br>
