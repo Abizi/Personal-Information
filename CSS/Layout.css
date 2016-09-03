@@ -28,16 +28,8 @@
 }
 /*End of Responsive CSS*/
 
-.banner{
-	background:#090012;
-	background-repeat:no-repeat;
-	height:400px;
-	color:#efefef;
-	text-align:center;
-}
-.banner h1{
-	padding:0;
-	margin:0;
-	font-size:86px;
-	line-height:360px;
+
+.form{
+	margin:auto;
+	padding:auto;
 }

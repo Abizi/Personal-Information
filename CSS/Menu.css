@@ -19,7 +19,7 @@ ul.nav_bar{
 
 ul.nav_bar li{
 	float:left;
-	width:100%;
+	width:25%;
 }
 ul.nav_bar li a{
 	display:block;

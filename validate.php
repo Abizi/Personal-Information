@@ -1,4 +1,17 @@
 <?php
+require_once 'database.php';
+session_start();
+
+	$salt1 = "@€‹£";
+	$salt2 = "™¢¶∞";
+	
+	function queryDB($query){
+		global $conn;
+		$result = mysqli_query($conn, $query);
+		return $result;
+	}
+
+
 $fnameErr = $lnameErr = $dobErr = $prolevErr = $phoneErr = $emailErr = $raddressErr = $postaddressErr = $kfnameErr = $klnameErr = $kinemailErr = $kinphoneErr = $relationshipErr ="";
 $fname = $lname = $dob = $prolev = $phone = $email = $raddress = $postaddress = $kfname = $klname = $kinemail = $kinphone = $relationship ="";
 
@@ -42,6 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	else {
 		$phone = test_form($_POST["PHONE"]);
+		//Check for numeric validity
+		if (!filter_var($phone, FILTER_VALIDATE_INT) === false){
+			$phone = "Please enter numeric characters!";
+		}
 	}
 	if (empty($_POST["EMAIL"])){
 		$emailErr = "Please enter Your email!";
@@ -58,13 +75,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	else {
 		$raddress = test_form($_POST["RADDRESS"]);
+		//check for invalid characters
+		if (!preg_match("/^[a-zA-Z0-9 ]*$/",$raddress)){
+			$raddressErr = "Only letters and numbers allowed!";
+		}
 	}
 	if (empty($_POST["POSTADDRESS"])){
 		$postaddressErr = "Please enter Your Postal address!";
 	}
 	else {
 		$postaddress = test_form($_POST["POSTADDRESS"]);
+		//check for invalid characters
+		if (!preg_match("/^[a-zA-Z0-9 ]*$/",$postaddress)){
+			$postaddressErr = "Only letters and numbers allowed!";
+		}
 	}
+	
+	
 	//Next of Kin Details
 	if (empty($_POST["KFNAME"])){
 		$kfnameErr = "Please enter the name!";
@@ -86,7 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$klnameErr = "Only letters and whitespace allowed!";
 		}
 	}
-	
 	if (empty($_POST["KINEMAIL"])){
 		$kinemailErr = "Please enter the email!";
 	}
@@ -94,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$kinemail = test_form($_POST["KINEMAIL"]);
 		//check email validity
 		if (!filter_var($kinemail,FILTER_VALIDATE_EMAIL)){
-			$kinemail = "Invalid Email format!";
+			$kinemailErr = "Invalid Email format!";
 		}
 	}
 	if (empty($_POST["KINPHONE"])){
@@ -102,14 +128,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	else {
 		$kinphone = test_form($_POST["KINPHONE"]);
+		//Check for numeric validity
+		if (!filter_var($kinphone, FILTER_VALIDATE_INT) === false){
+			$kinphoneErr = "Please enter numeric characters!";
+		}
 	}
 	if (empty($_POST["RELATIONSHIP"])){
 		$relationshipErr = "Please specify the relationship!";
 	}
 	else {
 		$relationship = test_form($_POST["RELATIONSHIP"]);
+		//check for invalid characters
+		if (!preg_match("/^[a-zA-Z ]*$/",$relationship)){
+			$relationshipErr = "Only letters and whitespace allowed!";
+		}
 	}
 }
+	 
+	if( isset($_POST["FNAME"]) && isset($_POST["LNAME"]) && isset($_POST['password']) && isset($_POST["EMAIL"]) ){
+			 	
+			 	$email = $email;
+			 	$password = sanitizeString($_POST['password']);
+			 	$firstname = $fname;
+			 	$lastname = $lname;
+			 	$phone = $phone;
+			 	$gender = sanitizeString($_POST['gender']);
+			 	$progLevel = $prolev;
+			 	$address = $raddress;
+			 	$addressPostal = $postaddress;
+			 	$dob = $dob;
+			 	
+			 	$kinname = $kfname;
+			 	$kinmail = $kinemail;
+			 	$kinphone = $kinphone;
+			 	$relationship = $relationship;
+	 	
+			 	$password = hash('ripemd128', $salt1.$password.$salt2 );
+			 	
+			 	$query = "INSERT INTO user VALUES('$firstname','$lastname','$dob','$email','$password','$gender','$progLevel',
+			 			'$phone','$address','$addressPostal')";
+			 	$result = mysqli_query($conn, $query);
+			 	
+			 	$query = "INSERT INTO nextOfKin VALUES('$email','$kinname','$kinphone','$kinmail','$relationship')";
+			 	$result2 = mysqli_query($conn, $query);
+			 	
+			 	if($result && $result2 ){
+			 		echo "1";
+			 		$_SESSION['mail'] = $email;
+			 		header("location:session.php");
+			 	}
+			 		
+			 	else {
+			 		echo "<span>Sign Up failed. <a href='/WAMD.php'>Try again</a></span>";
+			 		echo "0";
+			 	}
+			 		
+			 	
+	}
+	
+	
+	
+
 
 function test_form($data){
 	$data = trim($data);
@@ -117,5 +196,5 @@ function test_form($data){
 	$data = htmlspecialchars($data);
 	return $data;
 }
-
+header("location:/login");
 ?>
